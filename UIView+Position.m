@@ -69,15 +69,30 @@
     return [NSString stringWithFormat:@"(%f,%f,%f,%f)", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height];
 }
 + (CGFloat) screenWidth {
-    return [UIScreen mainScreen].bounds.size.width;
+    CGFloat width;
+    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait ||
+        [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationMaskPortraitUpsideDown) {
+        width = [UIScreen mainScreen].bounds.size.width;
+    } else { //Landscape orientation, so width and height are switched
+        width = [UIScreen mainScreen].bounds.size.height;
+    }
+    return width;
 }
+
 + (CGFloat) screenHeight {
-    return [UIScreen mainScreen].bounds.size.height;
+    CGFloat height;
+    if ([UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationPortrait ||
+        [UIApplication sharedApplication].statusBarOrientation == UIInterfaceOrientationMaskPortraitUpsideDown) {
+        height = [UIScreen mainScreen].bounds.size.height;
+    } else { //Landscape orientation, so width and height are switched
+        height = [UIScreen mainScreen].bounds.size.width;
+    }
+    return height;
 }
 
 - (void) centerOnScreen {
-    [self moveCenterXTo:[UIScreen mainScreen].bounds.size.width/2];
-    [self moveCenterYTo:[UIScreen mainScreen].bounds.size.height/2];
+    [self moveCenterXTo:[UIView screenWidth]/2];
+    [self moveCenterYTo:[UIView screenHeight]/2];
 }
 
 - (void)centerOnSuperview {
